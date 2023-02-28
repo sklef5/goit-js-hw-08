@@ -10,16 +10,11 @@ refs.form.addEventListener('submit', onFormSubmit)
 refs.form.addEventListener('input', throttle(onFormInput, 500))
 
 
-const formData = {}
+let formData = {}
 getLocalStorage()
 
-function onFormSubmit(evt){
-    evt.preventDefault()
-    evt.currentTarget.reset()
-    localStorage.removeItem("feedback-form-state")
-}
-function onFormInput(evt){
 
+function onFormInput(evt){
     formData[evt.target.name] = evt.target.value
     localStorage.setItem("feedback-form-state", JSON.stringify(formData))
 }
@@ -33,3 +28,10 @@ function getLocalStorage(){
 }
 }
 
+function onFormSubmit(evt){
+    evt.preventDefault()
+    console.log(formData)
+    evt.currentTarget.reset()
+    localStorage.removeItem("feedback-form-state")
+    formData = {}
+}

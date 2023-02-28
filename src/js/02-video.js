@@ -11,8 +11,8 @@ const durationCallback = ({ seconds }) => {
 
 player.on('timeupdate', throttle(durationCallback, 1000));
 const getTime = localStorage.getItem(LOCALLKEY)
-console.log(getTime)
 
+if (getTime){
 player
   .setCurrentTime(getTime)
   .then(function (seconds) {})
@@ -24,3 +24,4 @@ player
         break;
     }
   });
+}
