@@ -1,32 +1,25 @@
 import throttle from "lodash.throttle"
-const refs ={
-    form: document.querySelector('.feedback-form'),
-    email : document.querySelector('.feedback-form input '),
-    message : document.querySelector('.feedback-form textarea'),
-}
 
-
-refs.form.addEventListener('submit', onFormSubmit)
-refs.form.addEventListener('input', throttle(onFormInput, 500))
-
-
+const formInput= document.querySelector('.feedback-form')
 let formData = {}
-getLocalStorage()
 
+formInput.addEventListener('input', throttle(onFormInput, 500))
 
 function onFormInput(evt){
     formData[evt.target.name] = evt.target.value
     localStorage.setItem("feedback-form-state", JSON.stringify(formData))
 }
 
-function getLocalStorage(){
-    const mess = localStorage.getItem("feedback-form-state")
-    if(mess){
-        const text = JSON.parse(mess)
-        refs.email.value = text.email,
-        refs.message.textContent = text.message
+
+if(localStorage.getItem("feedback-form-state")){
+        const {email, message} = JSON.parse(localStorage.getItem("feedback-form-state"))
+        formInput.email.value = email,
+        formInput.message.value  = message,
+        formData.email = email,
+        formData.message= message
 }
-}
+
+refs.form.addEventListener('submit', onFormSubmit)
 
 function onFormSubmit(evt){
     evt.preventDefault()
