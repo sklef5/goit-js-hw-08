@@ -19,7 +19,7 @@ if(localStorage.getItem("feedback-form-state")){
         formData.message= message
 }
 
-refs.form.addEventListener('submit', onFormSubmit)
+formInput.addEventListener('submit', onFormSubmit)
 
 function onFormSubmit(evt){
     evt.preventDefault()
