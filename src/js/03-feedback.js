@@ -10,17 +10,18 @@ formInput.addEventListener('submit', onFormSubmit)
 
 if(storage){
     const {email, message} = JSON.parse(storage)
+    console.log(storage)
     formInput.email.value = email,
     formInput.message.value  = message
-}else{
-    formInput.email.value = '',
-    formInput.message.value  = ''
-}
+} else {
+    formInput.email.value ="";
+    formInput.message.value  = "";
+    }
 
 function onFormInput(evt){
     const formData ={
         email: formInput.elements.email.value,
-        messege :formInput.elements.message.value
+        message :formInput.elements.message.value,
     }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
 }
