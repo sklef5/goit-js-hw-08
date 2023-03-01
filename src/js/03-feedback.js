@@ -1,30 +1,33 @@
 import throttle from "lodash.throttle"
 
 const formInput= document.querySelector('.feedback-form')
-let formData = {}
+const STORAGE_KEY ="feedback-form-state"
+const storage = localStorage.getItem(STORAGE_KEY)
 
 formInput.addEventListener('input', throttle(onFormInput, 500))
+formInput.addEventListener('submit', onFormSubmit)
+
+
+if(storage){
+    const {email, message} = JSON.parse(storage)
+    formInput.email.value = email,
+    formInput.message.value  = message
+}else{
+    formInput.email.value = '',
+    formInput.message.value  = ''
+}
 
 function onFormInput(evt){
-    formData[evt.target.name] = evt.target.value
-    localStorage.setItem("feedback-form-state", JSON.stringify(formData))
+    const formData ={
+        email: formInput.elements.email.value,
+        messege :formInput.elements.message.value
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData))
 }
-
-
-if(localStorage.getItem("feedback-form-state")){
-        const {email, message} = JSON.parse(localStorage.getItem("feedback-form-state"))
-        formInput.email.value = email,
-        formInput.message.value  = message,
-        formData.email = email,
-        formData.message= message
-}
-
-formInput.addEventListener('submit', onFormSubmit)
 
 function onFormSubmit(evt){
     evt.preventDefault()
-    console.log(formData)
+    console.log(JSON.parse(localStorage.getItem(STORAGE_KEY)))
     evt.currentTarget.reset()
-    localStorage.removeItem("feedback-form-state")
-    formData = {}
+    localStorage.removeItem(STORAGE_KEY)
 }
